@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../ui/Button';
-import { CreditCard, Smartphone, Check, ShieldCheck } from 'lucide-react';
+import { CreditCard, Smartphone, ShieldCheck, Users } from 'lucide-react';
+import { useDashboard } from './DashboardContext';
 
 interface AdmissionFormProps {
   onSubmit: () => void;
@@ -14,14 +15,20 @@ const COURSES = {
 };
 
 export const AdmissionForm: React.FC<AdmissionFormProps> = ({ onSubmit, onCancel }) => {
+  const { batches, admitStudent } = useDashboard();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     course: 'ssc',
+    batchId: '',
     paymentMethod: 'bkash',
     trxId: ''
   });
   const [error, setError] = useState('');
+
+  // Filter batches based on course somewhat manually for this demo, or show all
+  // ideally batches would have a course type mapping.
+  const activeBatches = batches.filter(b => b.status === 'Active');
 
   const selectedCourse = COURSES[formData.course as keyof typeof COURSES];
   const finalPrice = selectedCourse.price - selectedCourse.discount;
@@ -32,14 +39,16 @@ export const AdmissionForm: React.FC<AdmissionFormProps> = ({ onSubmit, onCancel
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.trxId) {
+    if (!formData.name || !formData.phone || !formData.trxId || !formData.batchId) {
       setError('অনুগ্রহ করে সব তথ্য পূরণ করুন');
       return;
     }
-    // Simulate API call
-    setTimeout(() => {
-      onSubmit();
-    }, 500);
+    
+    // Call Context to Add Student
+    admitStudent(formData);
+    
+    // Close modal
+    onSubmit();
   };
 
   return (
@@ -92,6 +101,27 @@ export const AdmissionForm: React.FC<AdmissionFormProps> = ({ onSubmit, onCancel
                 <option value="medical">মেডিকেল এডমিশন</option>
               </select>
               <div className="absolute right-4 top-3.5 pointer-events-none text-slate-400">▼</div>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-1">ব্যাচ সিলেক্ট করুন <span className="text-red-500">*</span></label>
+            <div className="relative">
+                <Users className="absolute left-3 top-3 text-slate-400" size={18} />
+                <select
+                    name="batchId"
+                    value={formData.batchId}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-2.5 bg-white border border-indigo-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none appearance-none text-sm font-semibold text-slate-700"
+                >
+                    <option value="">-- ব্যাচ নির্বাচন করুন --</option>
+                    {activeBatches.map(batch => (
+                        <option key={batch.id} value={batch.id}>
+                            {batch.name} ({batch.class})
+                        </option>
+                    ))}
+                </select>
+                <div className="absolute right-4 top-3.5 pointer-events-none text-slate-400">▼</div>
             </div>
           </div>
 

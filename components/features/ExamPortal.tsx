@@ -10,6 +10,7 @@ const MOCK_EXAM: Exam = {
   subject: 'Physics',
   durationMinutes: 10,
   totalMarks: 20,
+  class: 'HSC',
   questions: [
     {
       id: 1,
@@ -139,13 +140,73 @@ export const ExamPortal: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [score, setScore] = useState(0);
 
+  // Restore exam state on mount
+  useEffect(() => {
+    const savedState = localStorage.getItem('ACTIVE_EXAM_STATE');
+    if (savedState) {
+      try {
+        const { examId, expiryTime, answers: savedAnswers } = JSON.parse(savedState);
+        if (examId === MOCK_EXAM.id) {
+          const now = Date.now();
+          const remaining = Math.floor((expiryTime - now) / 1000);
+          
+          if (remaining > 0) {
+            setAnswers(savedAnswers);
+            setTimeLeft(remaining);
+            setView('taking');
+          } else {
+            // Exam expired while away - calculate and show result
+            let calculatedScore = 0;
+            MOCK_EXAM.questions.forEach((q, idx) => {
+              if (savedAnswers[idx] === q.correctAnswer) calculatedScore += 5;
+            });
+            setScore(calculatedScore);
+            setView('result');
+            localStorage.removeItem('ACTIVE_EXAM_STATE');
+          }
+        }
+      } catch (e) {
+        console.error("Failed to restore exam session", e);
+        localStorage.removeItem('ACTIVE_EXAM_STATE');
+      }
+    }
+  }, []);
+
+  // Persist answers when changed
+  useEffect(() => {
+    if (view === 'taking' && answers.length > 0) {
+      const saved = localStorage.getItem('ACTIVE_EXAM_STATE');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        localStorage.setItem('ACTIVE_EXAM_STATE', JSON.stringify({
+          ...parsed,
+          answers
+        }));
+      }
+    }
+  }, [answers, view]);
+
   const startExam = () => {
-    setAnswers(new Array(MOCK_EXAM.questions.length).fill(-1));
-    setTimeLeft(MOCK_EXAM.durationMinutes * 60);
+    const durationSec = MOCK_EXAM.durationMinutes * 60;
+    const initialAnswers = new Array(MOCK_EXAM.questions.length).fill(-1);
+    const expiryTime = Date.now() + durationSec * 1000;
+
+    setAnswers(initialAnswers);
+    setTimeLeft(durationSec);
     setView('taking');
+    
+    // Initialize session storage
+    localStorage.setItem('ACTIVE_EXAM_STATE', JSON.stringify({
+      examId: MOCK_EXAM.id,
+      expiryTime,
+      answers: initialAnswers
+    }));
   };
 
   const submitExam = () => {
+    // Clear session storage
+    localStorage.removeItem('ACTIVE_EXAM_STATE');
+
     let calculatedScore = 0;
     MOCK_EXAM.questions.forEach((q, idx) => {
       if (answers[idx] === q.correctAnswer) {
@@ -199,11 +260,15 @@ export const ExamPortal: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <ExamCard exam={MOCK_EXAM} onStart={startExam} />
               
-              <div className="bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:bg-indigo-50/30 transition-colors cursor-pointer group">
+              <div 
+                className="bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:bg-indigo-50/30 transition-colors cursor-pointer group"
+                onClick={() => alert("New exams are uploaded every Friday!")}
+              >
                 <div className="w-16 h-16 rounded-full bg-white mb-4 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                    <AlertCircle className="text-slate-300 group-hover:text-indigo-400" />
                 </div>
                 <p className="font-medium">আরো এক্সাম আসছে...</p>
+                <p className="text-xs mt-1 text-slate-300">Click for info</p>
               </div>
             </div>
           </div>
