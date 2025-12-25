@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Menu, X, CheckCircle, Video, User as UserIcon, LogOut, Loader2, ArrowRight } from 'lucide-react';
 import { ViewState } from './types';
@@ -187,8 +188,7 @@ const Navbar: React.FC<{
                     <p className="font-bold mb-2 uppercase text-slate-400">Demo Credentials</p>
                     <div className="grid grid-cols-2 gap-2 text-left">
                         <p><span className="font-bold">Admin:</span> admin / admin</p>
-                        <p><span className="font-bold">Teacher:</span> teacher / 123</p>
-                        <p className="col-span-2"><span className="font-bold">Student:</span> STD-001 / 123</p>
+                        <p><span className="font-bold">Student:</span> STD-101 / 123</p>
                     </div>
                 </div>
             </form>
@@ -354,12 +354,12 @@ const AppContent: React.FC = () => {
             <Success />
             <ProgramDetails />
             <Features />
-            <Courses onDetailsClick={(id) => setSelectedCourseId(id)} />
+            <Courses onDetailsClick={(id) => setSelectedCourseId(id)} selectedCourseId={selectedCourseId} />
             <Mentors />
           </>
         );
       case 'courses':
-        return <Courses onDetailsClick={(id) => setSelectedCourseId(id)} />;
+        return <Courses onDetailsClick={(id) => setSelectedCourseId(id)} selectedCourseId={selectedCourseId} />;
       case 'mentors':
         return <div className="pt-24 bg-slate-950 min-h-screen"><Mentors /></div>;
       case 'exam':

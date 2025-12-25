@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useDashboard } from './DashboardContext';
 import { Student } from '../../types';
@@ -32,24 +33,24 @@ const ChangePasswordModal: React.FC = () => {
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in-95">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+            <div className="bg-slate-900 rounded-2xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in-95 border border-white/10">
+                <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 border border-red-500/20">
                     <KeyRound size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-center text-slate-800 mb-2">Security Alert</h3>
-                <p className="text-center text-slate-500 mb-6 text-sm">
+                <h3 className="text-xl font-bold text-center text-white mb-2">Security Alert</h3>
+                <p className="text-center text-slate-400 mb-6 text-sm">
                     This is your first login. For security reasons, you <b>MUST</b> change your default password to continue.
                 </p>
 
                 <div className="space-y-4">
-                    {error && <div className="p-2 bg-red-50 text-red-600 text-xs rounded border border-red-100">{error}</div>}
+                    {error && <div className="p-2 bg-red-500/10 text-red-400 text-xs rounded border border-red-500/20">{error}</div>}
                     <div>
                         <label className="block text-xs font-bold text-slate-500 uppercase mb-1">New Password</label>
                         <input 
                             type="password" 
                             value={pass1} 
                             onChange={e => setPass1(e.target.value)} 
-                            className="w-full border p-2 rounded-lg"
+                            className="w-full border border-white/10 bg-white/5 p-2 rounded-lg text-white outline-none focus:border-indigo-500"
                         />
                     </div>
                     <div>
@@ -58,7 +59,7 @@ const ChangePasswordModal: React.FC = () => {
                             type="password" 
                             value={pass2} 
                             onChange={e => setPass2(e.target.value)} 
-                            className="w-full border p-2 rounded-lg"
+                            className="w-full border border-white/10 bg-white/5 p-2 rounded-lg text-white outline-none focus:border-indigo-500"
                         />
                     </div>
                     <Button onClick={handleSubmit} className="w-full mt-2">Update Password</Button>
@@ -72,7 +73,7 @@ const AdmitCardModal: React.FC<{ student: Student; onClose: () => void; systemSe
     return (
         <Modal isOpen={true} onClose={onClose} title="Admit Card">
             <div className="flex flex-col items-center">
-                <div id="admit-card-print" className="w-full max-w-md bg-white border-2 border-slate-800 p-6 relative overflow-hidden print:shadow-none mb-6">
+                <div id="admit-card-print" className="w-full max-w-md bg-white border-2 border-slate-800 p-6 relative overflow-hidden print:shadow-none mb-6 text-slate-900">
                     {/* Watermark */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
                         <div className="text-6xl font-black -rotate-45">ORIGIN</div>
@@ -129,7 +130,7 @@ const AdmitCardModal: React.FC<{ student: Student; onClose: () => void; systemSe
                     <Button onClick={() => window.print()} className="flex-1 flex items-center justify-center">
                         <Printer size={16} className="mr-2" /> Print
                     </Button>
-                    <Button onClick={onClose} variant="secondary" className="flex-1">
+                    <Button onClick={onClose} variant="secondary" className="flex-1 border-white/10 text-slate-300 hover:text-white">
                         Close
                     </Button>
                 </div>
@@ -157,7 +158,7 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
     <div className="mb-4">
       <label className="block text-xs font-bold text-slate-500 uppercase mb-1 flex justify-between">
         {label}
-        {readOnlyTag && <span className="text-[10px] bg-slate-100 text-slate-400 px-1 rounded">Read Only</span>}
+        {readOnlyTag && <span className="text-[10px] bg-white/5 text-slate-400 px-1 rounded border border-white/5">Read Only</span>}
       </label>
       <div className="relative">
         <input 
@@ -165,9 +166,9 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
           value={value || ''} 
           onChange={e => onChange && onChange(e.target.value)}
           disabled={disabled}
-          className={`w-full p-3 rounded-xl border text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-indigo-100 ${disabled ? 'bg-slate-50 text-slate-500 border-slate-200 cursor-not-allowed' : 'bg-white border-slate-300 focus:border-indigo-500'}`}
+          className={`w-full p-3 rounded-xl border text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-indigo-500/50 ${disabled ? 'bg-white/5 text-slate-500 border-white/5 cursor-not-allowed' : 'bg-slate-900 border-white/10 focus:border-indigo-500 text-white'}`}
         />
-        {disabled && <Lock className="absolute right-3 top-3.5 text-slate-300" size={14} />}
+        {disabled && <Lock className="absolute right-3 top-3.5 text-slate-600" size={14} />}
       </div>
     </div>
   );
@@ -175,9 +176,9 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
   return (
     <div className="grid md:grid-cols-2 gap-8 animate-in fade-in duration-500">
       {/* Identity & Personal Info */}
-      <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100">
+      <div className="bg-slate-900 p-8 rounded-[2rem] shadow-sm border border-white/10">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-xl font-bold text-slate-800 flex items-center">
+          <h3 className="text-xl font-bold text-white flex items-center">
             <User className="mr-3 text-indigo-500" /> ব্যক্তিগত তথ্য
           </h3>
           <Button size="xs" variant={isEditing ? 'primary' : 'outline'} onClick={() => isEditing ? handleSave() : setIsEditing(true)}>
@@ -186,8 +187,8 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
         </div>
         
         {/* Photo Upload Simulation */}
-        <div className="flex items-center gap-6 mb-8 pb-8 border-b border-slate-100">
-           <div className="w-24 h-24 rounded-full bg-slate-50 overflow-hidden border-4 border-white shadow-lg ring-1 ring-slate-100">
+        <div className="flex items-center gap-6 mb-8 pb-8 border-b border-white/10">
+           <div className="w-24 h-24 rounded-full bg-slate-800 overflow-hidden border-4 border-slate-700 shadow-lg">
              <img src={isEditing ? photoUrl || student.image || '' : student.image || ''} className="w-full h-full object-cover" alt="Student" />
            </div>
            {isEditing ? (
@@ -196,14 +197,14 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
                <input 
                 value={photoUrl} 
                 onChange={(e) => setPhotoUrl(e.target.value)} 
-                className="w-full p-3 border rounded-xl text-xs bg-slate-50 focus:bg-white transition-colors outline-none focus:ring-2 focus:ring-indigo-100" 
+                className="w-full p-3 border border-white/10 rounded-xl text-xs bg-slate-800 text-white focus:bg-slate-900 transition-colors outline-none focus:ring-2 focus:ring-indigo-500/50" 
                 placeholder="Paste image URL..."
                />
              </div>
            ) : (
              <div>
-                <p className="font-bold text-lg text-slate-800">{student.name}</p>
-                <p className="text-sm text-slate-500">Student ID: <span className="font-mono text-indigo-600">{student.id}</span></p>
+                <p className="font-bold text-lg text-white">{student.name}</p>
+                <p className="text-sm text-slate-500">Student ID: <span className="font-mono text-indigo-400">{student.id}</span></p>
              </div>
            )}
         </div>
@@ -220,8 +221,8 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
            <InputField label="জন্ম তারিখ" value={student.personal.dob} disabled={true} readOnlyTag />
 
            {/* Editable Fields */}
-           <div className="mt-4 pt-4 border-t border-slate-100">
-              <p className="text-xs font-bold text-indigo-600 mb-4 uppercase tracking-wider">যোগাযোগ তথ্য</p>
+           <div className="mt-4 pt-4 border-t border-white/10">
+              <p className="text-xs font-bold text-indigo-400 mb-4 uppercase tracking-wider">যোগাযোগ তথ্য</p>
               <InputField label="নিজস্ব মোবাইল" value={formData.mobile} disabled={!isEditing} onChange={(v: string) => setFormData({...formData, mobile: v})} />
               <InputField label="নিজস্ব ইমেইল" value={formData.email} disabled={!isEditing} onChange={(v: string) => setFormData({...formData, email: v})} />
               <InputField label="বর্তমান ঠিকানা" value={formData.address} disabled={!isEditing} onChange={(v: string) => setFormData({...formData, address: v})} />
@@ -231,33 +232,33 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
 
       {/* Family Info - Strictly Read Only */}
       <div className="space-y-6">
-        <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-200 h-fit relative overflow-hidden">
+        <div className="bg-slate-900/50 p-8 rounded-[2rem] border border-white/10 h-fit relative overflow-hidden">
           <div className="absolute top-0 right-0 p-3 opacity-5">
-            <Lock size={120} />
+            <Lock size={120} className="text-white" />
           </div>
           <div className="flex justify-between items-center mb-8 relative z-10">
-            <h3 className="text-xl font-bold text-slate-700 flex items-center">
-              <Lock className="mr-2 text-slate-400" /> অভিভাবকের তথ্য
+            <h3 className="text-xl font-bold text-white flex items-center">
+              <Lock className="mr-2 text-slate-500" /> অভিভাবকের তথ্য
             </h3>
-            <span className="text-[10px] text-orange-700 bg-orange-100 px-2 py-1 rounded font-bold border border-orange-200">RESTRICTED</span>
+            <span className="text-[10px] text-orange-400 bg-orange-500/10 px-2 py-1 rounded font-bold border border-orange-500/20">RESTRICTED</span>
           </div>
           <div className="space-y-4 relative z-10">
-              <div className="p-5 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
-                 <p className="text-xs font-bold text-slate-400 uppercase mb-2">পিতার তথ্য</p>
+              <div className="p-5 bg-slate-900 rounded-2xl border border-white/5 shadow-sm">
+                 <p className="text-xs font-bold text-slate-500 uppercase mb-2">পিতার তথ্য</p>
                  <div className="flex justify-between items-center mb-1">
-                   <span className="font-bold text-slate-800 text-lg">{student.guardian.fatherName}</span>
+                   <span className="font-bold text-white text-lg">{student.guardian.fatherName}</span>
                  </div>
-                 <div className="flex items-center text-slate-500 text-sm">
+                 <div className="flex items-center text-slate-400 text-sm">
                    <Smartphone size={14} className="mr-2" /> {student.guardian.fatherMobile}
                  </div>
               </div>
               
-              <div className="p-5 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
-                 <p className="text-xs font-bold text-slate-400 uppercase mb-2">মাতার তথ্য</p>
+              <div className="p-5 bg-slate-900 rounded-2xl border border-white/5 shadow-sm">
+                 <p className="text-xs font-bold text-slate-500 uppercase mb-2">মাতার তথ্য</p>
                  <div className="flex justify-between items-center mb-1">
-                   <span className="font-bold text-slate-800 text-lg">{student.guardian.motherName}</span>
+                   <span className="font-bold text-white text-lg">{student.guardian.motherName}</span>
                  </div>
-                 <div className="flex items-center text-slate-500 text-sm">
+                 <div className="flex items-center text-slate-400 text-sm">
                    <Smartphone size={14} className="mr-2" /> {student.guardian.motherMobile}
                  </div>
               </div>
@@ -265,14 +266,14 @@ const ProfileTab: React.FC<{ student: Student }> = ({ student }) => {
         </div>
 
         {/* Status Card */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <div className="bg-slate-900 p-6 rounded-2xl border border-white/10 shadow-sm">
             <h3 className="text-sm font-bold text-slate-500 uppercase mb-4">অ্যাকাডেমিক স্ট্যাটাস</h3>
             <div className="flex gap-4">
-               <div className={`flex-1 p-4 rounded-xl border text-center ${student.academic.classStatus === 'Active' ? 'bg-emerald-50 border-emerald-100 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'}`}>
+               <div className={`flex-1 p-4 rounded-xl border text-center ${student.academic.classStatus === 'Active' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}>
                   <p className="text-xs font-bold opacity-70 mb-1">ক্লাস স্ট্যাটাস</p>
                   <p className="font-black text-xl">{student.academic.classStatus}</p>
                </div>
-               <div className={`flex-1 p-4 rounded-xl border text-center ${student.academic.accountStatus === 'Active' ? 'bg-blue-50 border-blue-100 text-blue-700' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+               <div className={`flex-1 p-4 rounded-xl border text-center ${student.academic.accountStatus === 'Active' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : 'bg-slate-800 border-white/10 text-slate-500'}`}>
                   <p className="text-xs font-bold opacity-70 mb-1">অ্যাকাউন্ট</p>
                   <p className="font-black text-xl">{student.academic.accountStatus}</p>
                </div>
@@ -296,14 +297,14 @@ const RoutineTab: React.FC = () => {
 
     return (
         <div className="animate-in fade-in space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-center bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <div className="flex flex-col md:flex-row justify-between items-center bg-slate-900 p-8 rounded-[2rem] border border-white/10 shadow-sm">
                 <div>
-                    <h3 className="text-2xl font-bold text-slate-800 flex items-center">
-                        <Calendar className="mr-3 text-indigo-600" /> ক্লাস রুটিন
+                    <h3 className="text-2xl font-bold text-white flex items-center">
+                        <Calendar className="mr-3 text-indigo-500" /> ক্লাস রুটিন
                     </h3>
-                    <p className="text-slate-500 mt-2">Today is <span className="font-bold text-indigo-600 border-b-2 border-indigo-200">{currentDay}</span></p>
+                    <p className="text-slate-400 mt-2">Today is <span className="font-bold text-indigo-400 border-b-2 border-indigo-500/30">{currentDay}</span></p>
                 </div>
-                <div className="mt-4 md:mt-0 bg-indigo-50 px-4 py-2 rounded-xl text-indigo-700 font-bold text-sm">
+                <div className="mt-4 md:mt-0 bg-indigo-500/10 px-4 py-2 rounded-xl text-indigo-300 font-bold text-sm border border-indigo-500/20">
                    Running Session: 2024-25
                 </div>
             </div>
@@ -314,14 +315,14 @@ const RoutineTab: React.FC = () => {
                     if(classes.length === 0) return null;
 
                     return (
-                        <div key={day} className="bg-white rounded-[1.5rem] border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                            <div className={`px-6 py-4 font-bold border-b border-slate-50 flex items-center justify-between ${day === currentDay ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600'}`}>
+                        <div key={day} className="bg-slate-900 rounded-[1.5rem] border border-white/10 overflow-hidden shadow-sm hover:shadow-lg transition-all">
+                            <div className={`px-6 py-4 font-bold border-b border-white/5 flex items-center justify-between ${day === currentDay ? 'bg-indigo-600 text-white' : 'bg-slate-800/50 text-slate-400'}`}>
                                 <span>{day}</span>
                                 {day === currentDay && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded text-white">TODAY</span>}
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="text-xs text-slate-400 uppercase bg-slate-50/50">
+                                    <thead className="text-xs text-slate-500 uppercase bg-white/5">
                                         <tr>
                                             <th className="p-5 font-bold">Time</th>
                                             <th className="p-5 font-bold">Subject</th>
@@ -329,19 +330,19 @@ const RoutineTab: React.FC = () => {
                                             <th className="p-5 font-bold">Room</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-slate-50">
+                                    <tbody className="divide-y divide-white/5">
                                         {classes.map(c => {
                                             // Check if class is NOW
                                             const isNow = day === currentDay && currentTimeVal >= c.startTime && currentTimeVal < c.endTime;
                                             
                                             return (
-                                                <tr key={c.id} className={`${isNow ? 'bg-emerald-50/50' : 'hover:bg-slate-50/50'} transition-colors`}>
-                                                    <td className="p-5 font-bold text-slate-700 whitespace-nowrap">
+                                                <tr key={c.id} className={`${isNow ? 'bg-emerald-500/10' : 'hover:bg-white/5'} transition-colors`}>
+                                                    <td className="p-5 font-bold text-slate-300 whitespace-nowrap">
                                                         {c.time}
                                                         {isNow && <span className="ml-2 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full animate-pulse">LIVE</span>}
                                                     </td>
-                                                    <td className="p-5 font-bold text-indigo-600">{c.subject}</td>
-                                                    <td className="p-5 text-slate-500">{c.teacher}</td>
+                                                    <td className="p-5 font-bold text-indigo-400">{c.subject}</td>
+                                                    <td className="p-5 text-slate-400">{c.teacher}</td>
                                                     <td className="p-5 text-slate-500 font-mono text-xs">{c.room}</td>
                                                 </tr>
                                             );
@@ -360,12 +361,10 @@ const RoutineTab: React.FC = () => {
 const AttendanceTab: React.FC<{ student: Student }> = ({ student }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // Overall Stats
   const totalPresent = student.attendance.filter(a => a.status === 'Present').length;
   const totalClasses = student.attendance.length; 
   const overallPercentage = totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) : 0;
 
-  // Calendar Helpers
   const getDaysInMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   const getFirstDayOfMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
 
@@ -379,41 +378,41 @@ const AttendanceTab: React.FC<{ student: Student }> = ({ student }) => {
   return (
     <div className="animate-in slide-in-from-bottom-4 duration-500">
       <div className="flex gap-6 mb-8">
-        <div className="flex-1 bg-gradient-to-br from-white to-slate-50 p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
+        <div className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-[2rem] border border-white/10 shadow-sm flex items-center justify-between group hover:shadow-indigo-500/10 transition-all">
            <div>
-              <p className="text-slate-500 text-sm font-bold uppercase tracking-wide">উপস্থিতি হার</p>
-              <h3 className="text-4xl font-black text-indigo-600 mt-2">{overallPercentage}<span className="text-lg text-slate-400">%</span></h3>
+              <p className="text-slate-400 text-sm font-bold uppercase tracking-wide">উপস্থিতি হার</p>
+              <h3 className="text-4xl font-black text-indigo-400 mt-2">{overallPercentage}<span className="text-lg text-slate-500">%</span></h3>
            </div>
-           <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
+           <div className="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
              <TrendingUp size={28} />
            </div>
         </div>
-        <div className="flex-1 bg-gradient-to-br from-white to-slate-50 p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
+        <div className="flex-1 bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-[2rem] border border-white/10 shadow-sm flex items-center justify-between group hover:shadow-indigo-500/10 transition-all">
            <div>
-              <p className="text-slate-500 text-sm font-bold uppercase tracking-wide">মোট কর্মদিবস</p>
-              <h3 className="text-4xl font-black text-slate-800 mt-2">{totalClasses}</h3>
+              <p className="text-slate-400 text-sm font-bold uppercase tracking-wide">মোট কর্মদিবস</p>
+              <h3 className="text-4xl font-black text-white mt-2">{totalClasses}</h3>
            </div>
-           <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-600 group-hover:scale-110 transition-transform">
+           <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
              <Calendar size={28} />
            </div>
         </div>
       </div>
 
-      <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg shadow-slate-200/50">
+      <div className="bg-slate-900 p-8 rounded-[2rem] border border-white/10 shadow-lg shadow-black/20">
         <div className="flex items-center justify-between mb-8">
-           <h3 className="font-bold text-slate-800 text-2xl capitalize flex items-center gap-2">
-             <span className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600"><Calendar size={20} /></span>
+           <h3 className="font-bold text-white text-2xl capitalize flex items-center gap-2">
+             <span className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400"><Calendar size={20} /></span>
              {monthName}
            </h3>
            <div className="flex gap-2">
-              <button onClick={prevMonth} className="p-3 hover:bg-slate-50 rounded-full border border-slate-100 text-slate-500 hover:text-indigo-600 transition-colors"><ChevronLeft size={20}/></button>
-              <button onClick={nextMonth} className="p-3 hover:bg-slate-50 rounded-full border border-slate-100 text-slate-500 hover:text-indigo-600 transition-colors"><ChevronRight size={20}/></button>
+              <button onClick={prevMonth} className="p-3 hover:bg-white/5 rounded-full border border-white/10 text-slate-400 hover:text-indigo-400 transition-colors"><ChevronLeft size={20}/></button>
+              <button onClick={nextMonth} className="p-3 hover:bg-white/5 rounded-full border border-white/10 text-slate-400 hover:text-indigo-400 transition-colors"><ChevronRight size={20}/></button>
            </div>
         </div>
 
         <div className="grid grid-cols-7 gap-3 mb-4 overflow-x-auto min-w-[300px]">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} className="text-center text-xs font-bold text-slate-400 py-3 uppercase tracking-wider">{d}</div>
+            <div key={d} className="text-center text-xs font-bold text-slate-500 py-3 uppercase tracking-wider">{d}</div>
           ))}
           {Array.from({ length: firstDay }).map((_, i) => <div key={`empty-${i}`} />)}
           {Array.from({ length: daysInMonth }).map((_, i) => {
@@ -425,22 +424,22 @@ const AttendanceTab: React.FC<{ student: Student }> = ({ student }) => {
             
             const record = student.attendance.find(a => a.date === dateStr);
             
-            let bgClass = 'bg-slate-50 text-slate-400 hover:bg-slate-100';
+            let bgClass = 'bg-white/5 text-slate-500 hover:bg-white/10';
             let statusLabel = null;
             
             if (record) {
                 if (record.status === 'Present') { 
-                    bgClass = 'bg-emerald-100 text-emerald-700 ring-2 ring-emerald-200 shadow-sm'; statusLabel = 'P'; 
+                    bgClass = 'bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30 shadow-sm'; statusLabel = 'P'; 
                 } else if (record.status === 'Absent') { 
-                    bgClass = 'bg-rose-100 text-rose-700 ring-2 ring-rose-200 shadow-sm'; statusLabel = 'A'; 
+                    bgClass = 'bg-rose-500/20 text-rose-400 ring-1 ring-rose-500/30 shadow-sm'; statusLabel = 'A'; 
                 } else if (record.status === 'Leave') { 
-                    bgClass = 'bg-amber-100 text-amber-700 ring-2 ring-amber-200 shadow-sm'; statusLabel = 'L'; 
+                    bgClass = 'bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30 shadow-sm'; statusLabel = 'L'; 
                 }
             }
 
             return (
               <div key={day} className={`aspect-square rounded-2xl flex flex-col items-center justify-center transition-all duration-300 relative group cursor-default ${bgClass}`}>
-                <span className={`font-bold text-sm ${record ? 'scale-110' : 'scale-90 opacity-70'}`}>{day}</span>
+                <span className={`font-bold text-sm ${record ? 'scale-110' : 'scale-90 opacity-50'}`}>{day}</span>
                 {statusLabel && <span className="text-[10px] font-black mt-0.5">{statusLabel}</span>}
               </div>
             );
@@ -460,7 +459,6 @@ const FinanceTab: React.FC<{ student: Student }> = ({ student }) => {
 
   const handlePay = (feeId: number, method: 'bKash' | 'Nagad') => {
     setLoadingId(feeId);
-    // Simulate Gateway Delay
     setTimeout(() => {
         makePayment(student.id, feeId, method);
         setLoadingId(null);
@@ -470,42 +468,42 @@ const FinanceTab: React.FC<{ student: Student }> = ({ student }) => {
   return (
     <div className="animate-in slide-in-from-bottom-4 duration-500 space-y-8">
       {totalDue > 0 ? (
-        <div className="bg-gradient-to-r from-red-50 to-rose-50 border border-red-100 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+        <div className="bg-gradient-to-r from-red-500/10 to-rose-500/10 border border-red-500/20 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
            <div className="flex items-center gap-6">
-             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-red-500 shadow-sm">
+             <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-500 shadow-sm border border-red-500/20">
                <AlertCircle size={32} />
              </div>
              <div>
-               <h3 className="text-xl font-bold text-red-800">Payment Pending</h3>
-               <p className="text-red-600 font-medium mt-1">
+               <h3 className="text-xl font-bold text-red-400">Payment Pending</h3>
+               <p className="text-red-300/80 font-medium mt-1">
                  Due for: {dueRecords.map(f => f.month).join(', ')}
                </p>
              </div>
            </div>
-           <div className="bg-white px-6 py-3 rounded-xl font-bold text-red-600 border border-red-100 shadow-sm text-lg">
+           <div className="bg-red-500 text-white px-6 py-3 rounded-xl font-bold border border-red-400 shadow-lg text-lg">
              Total Due: ৳{totalDue}
            </div>
         </div>
       ) : (
-        <div className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-100 rounded-[2rem] p-8 flex items-center gap-6 shadow-sm">
-           <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-emerald-600 shadow-sm">
+        <div className="bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/20 rounded-[2rem] p-8 flex items-center gap-6 shadow-sm">
+           <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-400 shadow-sm border border-emerald-500/20">
              <CheckCircle size={32} />
            </div>
            <div>
-             <h3 className="text-xl font-bold text-emerald-800">কোন বকেয়া নেই!</h3>
-             <p className="text-emerald-600">ধন্যবাদ সময়মতো পেমেন্ট করার জন্য।</p>
+             <h3 className="text-xl font-bold text-emerald-400">কোন বকেয়া নেই!</h3>
+             <p className="text-emerald-300/70">ধন্যবাদ সময়মতো পেমেন্ট করার জন্য।</p>
            </div>
         </div>
       )}
 
-      <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-           <span className="font-bold text-slate-800 text-lg">Transaction History</span>
-           <span className="text-xs text-slate-400 font-bold uppercase bg-white px-3 py-1 rounded-full border border-slate-200">Real-time status</span>
+      <div className="bg-slate-900 rounded-[2rem] border border-white/10 shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+           <span className="font-bold text-white text-lg">Transaction History</span>
+           <span className="text-xs text-slate-400 font-bold uppercase bg-slate-900 px-3 py-1 rounded-full border border-white/10">Real-time status</span>
         </div>
         <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-            <thead className="text-xs text-slate-400 uppercase bg-slate-50/30 border-b border-slate-100">
+            <thead className="text-xs text-slate-500 uppercase bg-white/5 border-b border-white/5">
                 <tr>
                 <th className="px-8 py-4 font-bold">Month</th>
                 <th className="px-8 py-4 font-bold">Amount</th>
@@ -514,22 +512,22 @@ const FinanceTab: React.FC<{ student: Student }> = ({ student }) => {
                 <th className="px-8 py-4 font-bold text-right">Pay Now</th>
                 </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-white/5">
                 {student.financials.map((record) => (
-                <tr key={record.id} className="bg-white hover:bg-slate-50/50 transition-colors">
-                    <td className="px-8 py-5 font-bold text-slate-800">{record.month}</td>
-                    <td className="px-8 py-5 text-slate-600">৳{record.amount}</td>
+                <tr key={record.id} className="hover:bg-white/5 transition-colors">
+                    <td className="px-8 py-5 font-bold text-slate-300">{record.month}</td>
+                    <td className="px-8 py-5 text-slate-400">৳{record.amount}</td>
                     <td className="px-8 py-5">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${record.status === 'Paid' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-rose-50 text-rose-700 border-rose-100'}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${record.status === 'Paid' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`}>
                         {record.status}
                     </span>
                     </td>
                     <td className="px-8 py-5 text-xs text-slate-500">
                     {record.status === 'Paid' ? (
                         <div>
-                        <p className="font-bold text-slate-700">{record.method}</p>
+                        <p className="font-bold text-slate-300">{record.method}</p>
                         <p>{record.paymentDate}</p>
-                        <p className="text-[10px] font-mono mt-1 text-slate-400">{record.trxId}</p>
+                        <p className="text-[10px] font-mono mt-1 text-slate-600">{record.trxId}</p>
                         </div>
                     ) : '-'}
                     </td>
@@ -616,11 +614,11 @@ const ResultsTab: React.FC<{ student: Student }> = ({ student }) => {
              {showAdmitModal && <AdmitCardModal student={student} onClose={() => setShowAdmitModal(false)} systemSettings={systemSettings} />}
              
              {/* Admit Card Section */}
-             <div className="bg-gradient-to-r from-indigo-900 to-slate-900 p-8 rounded-[2rem] shadow-xl shadow-indigo-200 flex flex-col sm:flex-row justify-between items-center gap-6 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+             <div className="bg-gradient-to-r from-indigo-900 to-slate-900 p-8 rounded-[2rem] shadow-xl shadow-indigo-900/20 flex flex-col sm:flex-row justify-between items-center gap-6 text-white relative overflow-hidden border border-white/10">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                 <div className="relative z-10">
                     <h3 className="font-bold text-xl flex items-center mb-1">
-                        <FileText className="mr-3 text-indigo-300" /> Admit Card Available
+                        <FileText className="mr-3 text-indigo-400" /> Admit Card Available
                     </h3>
                     <p className="text-indigo-200 text-sm opacity-80">Download your admit card for upcoming exams. Ensure dues are cleared.</p>
                 </div>
@@ -638,7 +636,7 @@ const ResultsTab: React.FC<{ student: Student }> = ({ student }) => {
 
             {/* Central Position Metrics */}
             <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white p-8 rounded-[2rem] shadow-lg shadow-indigo-200 relative overflow-hidden group">
+                <div className="bg-gradient-to-br from-indigo-600 to-violet-700 text-white p-8 rounded-[2rem] shadow-lg shadow-indigo-500/20 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform"><TrendingUp size={80} /></div>
                     <div className="relative z-10">
                         <p className="text-indigo-200 text-xs font-bold uppercase tracking-wider mb-4">Last Exam Performance</p>
@@ -655,58 +653,58 @@ const ResultsTab: React.FC<{ student: Student }> = ({ student }) => {
                     </div>
                 </div>
 
-                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
-                     <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4">Monthly Aggregate</p>
+                <div className="bg-slate-900 p-8 rounded-[2rem] border border-white/10 shadow-sm relative overflow-hidden group hover:border-indigo-500/30 transition-colors">
+                     <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-4">Monthly Aggregate</p>
                      <div className="flex justify-between items-end">
                         <div>
-                            <h3 className="text-4xl font-black text-slate-800">{performance.monthly.score}</h3>
-                            <p className="text-xs text-slate-400 mt-1">Avg Score</p>
+                            <h3 className="text-4xl font-black text-white">{performance.monthly.score}</h3>
+                            <p className="text-xs text-slate-500 mt-1">Avg Score</p>
                         </div>
                         <div className="text-right">
-                            <h3 className="text-4xl font-bold text-indigo-600">#{performance.monthly.position > 0 ? performance.monthly.position : '-'}</h3>
-                            <p className="text-xs text-slate-400 mt-1">Position</p>
+                            <h3 className="text-4xl font-bold text-indigo-400">#{performance.monthly.position > 0 ? performance.monthly.position : '-'}</h3>
+                            <p className="text-xs text-slate-500 mt-1">Position</p>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
-                     <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4">Yearly Aggregate</p>
+                <div className="bg-slate-900 p-8 rounded-[2rem] border border-white/10 shadow-sm relative overflow-hidden group hover:border-emerald-500/30 transition-colors">
+                     <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-4">Yearly Aggregate</p>
                      <div className="flex justify-between items-end">
                         <div>
-                            <h3 className="text-4xl font-black text-slate-800">{performance.yearly.score}</h3>
-                            <p className="text-xs text-slate-400 mt-1">Total Score</p>
+                            <h3 className="text-4xl font-black text-white">{performance.yearly.score}</h3>
+                            <p className="text-xs text-slate-500 mt-1">Total Score</p>
                         </div>
                         <div className="text-right">
-                            <h3 className="text-4xl font-bold text-emerald-600">#{performance.yearly.position > 0 ? performance.yearly.position : '-'}</h3>
-                            <p className="text-xs text-slate-400 mt-1">Global Rank</p>
+                            <h3 className="text-4xl font-bold text-emerald-400">#{performance.yearly.position > 0 ? performance.yearly.position : '-'}</h3>
+                            <p className="text-xs text-slate-500 mt-1">Global Rank</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Performance Graph */}
-            <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-                <h3 className="font-bold text-slate-800 text-lg mb-8 flex items-center">
-                    <span className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center mr-3 text-indigo-600"><TrendingUp size={18} /></span>
+            <div className="bg-slate-900 p-8 rounded-[2rem] border border-white/10 shadow-sm">
+                <h3 className="font-bold text-white text-lg mb-8 flex items-center">
+                    <span className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center mr-3 text-indigo-400"><TrendingUp size={18} /></span>
                     Performance Trend (Last 5 Exams)
                 </h3>
                 {publishedResults.length < 2 ? (
-                    <div className="h-48 flex flex-col items-center justify-center bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
-                        <TrendingUp className="text-slate-300 mb-2" size={32} />
-                        <p className="text-slate-400 text-sm">Not enough data to display trend graph.</p>
+                    <div className="h-48 flex flex-col items-center justify-center bg-white/5 rounded-2xl border border-dashed border-white/10">
+                        <TrendingUp className="text-slate-600 mb-2" size={32} />
+                        <p className="text-slate-500 text-sm">Not enough data to display trend graph.</p>
                     </div>
                 ) : (
                     <div className="w-full overflow-x-auto pb-4">
                         <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full min-w-[600px] h-auto overflow-visible">
                             {/* Grid Lines */}
-                            <line x1={paddingX} y1={paddingY} x2={chartWidth - paddingX} y2={paddingY} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4" />
-                            <text x={paddingX - 10} y={paddingY + 4} textAnchor="end" fontSize="10" fill="#94a3b8" fontWeight="bold">100%</text>
+                            <line x1={paddingX} y1={paddingY} x2={chartWidth - paddingX} y2={paddingY} stroke="#334155" strokeWidth="1" strokeDasharray="4" />
+                            <text x={paddingX - 10} y={paddingY + 4} textAnchor="end" fontSize="10" fill="#64748b" fontWeight="bold">100%</text>
                             
-                            <line x1={paddingX} y1={chartHeight / 2} x2={chartWidth - paddingX} y2={chartHeight / 2} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4" />
-                            <text x={paddingX - 10} y={chartHeight / 2 + 4} textAnchor="end" fontSize="10" fill="#94a3b8" fontWeight="bold">50%</text>
+                            <line x1={paddingX} y1={chartHeight / 2} x2={chartWidth - paddingX} y2={chartHeight / 2} stroke="#334155" strokeWidth="1" strokeDasharray="4" />
+                            <text x={paddingX - 10} y={chartHeight / 2 + 4} textAnchor="end" fontSize="10" fill="#64748b" fontWeight="bold">50%</text>
 
-                            <line x1={paddingX} y1={chartHeight - paddingY} x2={chartWidth - paddingX} y2={chartHeight - paddingY} stroke="#cbd5e1" strokeWidth="1" />
-                            <text x={paddingX - 10} y={chartHeight - paddingY + 4} textAnchor="end" fontSize="10" fill="#94a3b8" fontWeight="bold">0%</text>
+                            <line x1={paddingX} y1={chartHeight - paddingY} x2={chartWidth - paddingX} y2={chartHeight - paddingY} stroke="#475569" strokeWidth="1" />
+                            <text x={paddingX - 10} y={chartHeight - paddingY + 4} textAnchor="end" fontSize="10" fill="#64748b" fontWeight="bold">0%</text>
 
                             {/* Trend Line with Gradient Stroke */}
                             <defs>
@@ -720,18 +718,16 @@ const ResultsTab: React.FC<{ student: Student }> = ({ student }) => {
                             {/* Data Points */}
                             {graphData.map((p, i) => (
                                 <g key={i} className="group">
-                                    <circle cx={p.x} cy={p.y} r="6" fill="white" stroke="#6366f1" strokeWidth="3" className="cursor-pointer transition-all duration-300 group-hover:r-8 group-hover:stroke-pink-500" />
+                                    <circle cx={p.x} cy={p.y} r="6" fill="#1e293b" stroke="#6366f1" strokeWidth="3" className="cursor-pointer transition-all duration-300 group-hover:r-8 group-hover:stroke-pink-500" />
                                     
                                     {/* Tooltip / Value Label */}
                                     <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                                        <rect x={p.x - 24} y={p.y - 45} width="48" height="24" rx="6" fill="#1e293b" />
-                                        {/* Little triangle */}
-                                        <path d={`M${p.x - 6},${p.y - 21} L${p.x},${p.y - 15} L${p.x + 6},${p.y - 21}`} fill="#1e293b" />
+                                        <rect x={p.x - 24} y={p.y - 45} width="48" height="24" rx="6" fill="#0f172a" stroke="#334155" />
                                         <text x={p.x} y={p.y - 29} textAnchor="middle" fontSize="11" fill="white" fontWeight="bold">{Math.round(p.val)}%</text>
                                     </g>
                                     
                                     {/* Exam Label */}
-                                    <text x={p.x} y={chartHeight - 10} textAnchor="middle" fontSize="10" fill="#64748b" className="font-medium">
+                                    <text x={p.x} y={chartHeight - 10} textAnchor="middle" fontSize="10" fill="#94a3b8" className="font-medium">
                                         {p.label.length > 15 ? p.label.substring(0, 12) + '...' : p.label}
                                     </text>
                                 </g>
@@ -742,37 +738,37 @@ const ResultsTab: React.FC<{ student: Student }> = ({ student }) => {
             </div>
 
             {/* Legacy Result List */}
-            <h3 className="font-bold text-slate-800 text-lg mt-8 mb-4">Exam History</h3>
+            <h3 className="font-bold text-white text-lg mt-8 mb-4">Exam History</h3>
             <div className="space-y-4">
                  {student.results.length === 0 ? (
-                     <div className="text-center py-12 bg-white rounded-3xl border border-slate-100">
-                         <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-300">
+                     <div className="text-center py-12 bg-slate-900 rounded-3xl border border-white/10">
+                         <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-500">
                             <BookOpen size={24} />
                          </div>
-                         <p className="text-slate-400 font-medium">No published exam history available yet.</p>
+                         <p className="text-slate-500 font-medium">No published exam history available yet.</p>
                      </div>
                  ) : (
                      student.results.map((res, i) => (
-                        <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 flex justify-between items-center hover:shadow-lg hover:shadow-slate-200/50 hover:border-indigo-100 transition-all cursor-default group">
+                        <div key={i} className="bg-slate-900 p-5 rounded-2xl border border-white/10 flex justify-between items-center hover:shadow-lg hover:shadow-indigo-500/10 hover:border-indigo-500/30 transition-all cursor-default group">
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
-                                  <h4 className="font-bold text-slate-800 text-lg group-hover:text-indigo-600 transition-colors">{res.examName}</h4>
+                                  <h4 className="font-bold text-slate-200 text-lg group-hover:text-indigo-400 transition-colors">{res.examName}</h4>
                                   {res.isPublished ? (
-                                     <span className="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full font-bold border border-emerald-100">Published</span>
+                                     <span className="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded-full font-bold border border-emerald-500/20">Published</span>
                                   ) : (
-                                     <span className="text-[10px] bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-bold border border-amber-100">Pending</span>
+                                     <span className="text-[10px] bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded-full font-bold border border-amber-500/20">Pending</span>
                                   )}
                                 </div>
-                                <p className="text-xs text-slate-400 font-medium">{res.date}</p>
+                                <p className="text-xs text-slate-500 font-medium">{res.date}</p>
                             </div>
                             <div className="text-right">
                                 {res.isPublished ? (
                                     <>
-                                        <p className="font-black text-indigo-600 text-2xl">{res.obtainedMarks}<span className="text-sm text-slate-400 font-medium">/{res.totalMarks}</span></p>
-                                        <span className={`inline-block mt-1 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${res.status === 'Passed' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>{res.status}</span>
+                                        <p className="font-black text-indigo-400 text-2xl">{res.obtainedMarks}<span className="text-sm text-slate-500 font-medium">/{res.totalMarks}</span></p>
+                                        <span className={`inline-block mt-1 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${res.status === 'Passed' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>{res.status}</span>
                                     </>
                                 ) : (
-                                    <span className="text-sm font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-lg">Not Published Yet</span>
+                                    <span className="text-sm font-bold text-slate-600 bg-white/5 px-3 py-1 rounded-lg">Not Published Yet</span>
                                 )}
                             </div>
                         </div>
@@ -789,7 +785,7 @@ export const StudentDashboard: React.FC = () => {
   const { currentUser, notices } = useDashboard();
   const [activeTab, setActiveTab] = useState<'profile' | 'routine' | 'attendance' | 'results' | 'finance'>('profile');
   
-  if (!currentUser) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-indigo-600" /></div>;
+  if (!currentUser) return <div className="min-h-screen flex items-center justify-center bg-slate-950"><Loader2 className="animate-spin text-indigo-500" /></div>;
   const student = currentUser as Student;
 
   const NavItem = ({ id, label, icon: Icon }: any) => (
@@ -797,8 +793,8 @@ export const StudentDashboard: React.FC = () => {
       onClick={() => setActiveTab(id)}
       className={`flex items-center px-6 py-4 text-sm font-bold transition-all border-b-2 whitespace-nowrap outline-none ${
         activeTab === id 
-        ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' 
-        : 'border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-50'
+        ? 'border-indigo-500 text-indigo-400 bg-indigo-500/10' 
+        : 'border-transparent text-slate-500 hover:text-white hover:bg-white/5'
       }`}
     >
       <Icon size={18} className={`mr-2 transition-transform ${activeTab === id ? 'scale-110' : ''}`} />
@@ -807,60 +803,59 @@ export const StudentDashboard: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pt-28 pb-20">
-      {/* Force Change Password Modal */}
+    <div className="min-h-screen bg-slate-950 pt-28 pb-20 font-[Hind Siliguri]">
       {student.isFirstLogin && <ChangePasswordModal />}
 
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-end justify-between mb-10 gap-6">
            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-indigo-200">
+              <div className="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-indigo-500/20">
                 {student.name[0]}
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-slate-900">Welcome, <span className="text-indigo-600">{student.name.split(' ')[0]}</span>!</h1>
-                <p className="text-slate-500 mt-1 font-medium text-sm flex items-center gap-2">
-                    <span className="bg-white border border-slate-200 px-2 py-0.5 rounded text-xs">Class {student.academic.class}</span> 
-                    ID: <span className="font-mono text-slate-700">{student.id}</span>
+                <h1 className="text-3xl font-bold text-white">Welcome, <span className="text-indigo-400">{student.name.split(' ')[0]}</span>!</h1>
+                <p className="text-slate-400 mt-1 font-medium text-sm flex items-center gap-2">
+                    <span className="bg-white/5 border border-white/10 px-2 py-0.5 rounded text-xs">Class {student.academic.class}</span> 
+                    ID: <span className="font-mono text-slate-300">{student.id}</span>
                 </p>
               </div>
            </div>
            
            <div className="flex gap-4 w-full md:w-auto">
-              <div className="bg-white px-5 py-3 rounded-2xl shadow-sm border border-slate-100 text-center flex-1 md:flex-none">
-                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Class Rank</p>
-                 <p className="text-2xl font-black text-indigo-600">#{student.performance.monthly.position > 0 ? student.performance.monthly.position : '-'}</p>
+              <div className="bg-slate-900 px-5 py-3 rounded-2xl shadow-sm border border-white/10 text-center flex-1 md:flex-none">
+                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Class Rank</p>
+                 <p className="text-2xl font-black text-indigo-400">#{student.performance.monthly.position > 0 ? student.performance.monthly.position : '-'}</p>
               </div>
-              <div className="bg-white px-5 py-3 rounded-2xl shadow-sm border border-slate-100 text-center flex-1 md:flex-none">
-                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Avg Score</p>
-                 <p className="text-2xl font-black text-emerald-600">{student.performance.monthly.score}</p>
+              <div className="bg-slate-900 px-5 py-3 rounded-2xl shadow-sm border border-white/10 text-center flex-1 md:flex-none">
+                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Avg Score</p>
+                 <p className="text-2xl font-black text-emerald-400">{student.performance.monthly.score}</p>
               </div>
            </div>
         </div>
 
         {/* Notice Board (Live) */}
         {notices.length > 0 && (
-          <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-[1.5rem] p-6 mb-10 relative overflow-hidden shadow-sm">
+          <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-[1.5rem] p-6 mb-10 relative overflow-hidden shadow-sm">
              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white rounded-xl text-amber-500 shadow-sm border border-amber-100 shrink-0">
+                <div className="p-3 bg-slate-900 rounded-xl text-amber-500 shadow-sm border border-amber-500/20 shrink-0">
                    <Bell size={24} />
                 </div>
                 <div className="flex-1">
-                   <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wide mb-3 flex items-center">
+                   <h3 className="font-bold text-white text-sm uppercase tracking-wide mb-3 flex items-center">
                      Notice Board <span className="ml-2 w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                    </h3>
                    <div className="space-y-3">
                       {notices.map(notice => (
-                         <div key={notice.id} className="bg-white p-4 rounded-xl border border-amber-100/50 shadow-sm hover:shadow-md transition-shadow">
+                         <div key={notice.id} className="bg-slate-900 p-4 rounded-xl border border-white/10 shadow-sm hover:border-amber-500/30 transition-colors">
                              <div className="flex justify-between items-start mb-1">
-                                <h4 className="font-bold text-slate-800 text-sm">{notice.title}</h4>
-                                <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${notice.priority === 'Urgent' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
+                                <h4 className="font-bold text-slate-200 text-sm">{notice.title}</h4>
+                                <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${notice.priority === 'Urgent' ? 'bg-red-500/10 text-red-500' : 'bg-blue-500/10 text-blue-500'}`}>
                                    {notice.type}
                                 </span>
                              </div>
-                             <p className="text-xs text-slate-600 leading-relaxed">{notice.content}</p>
-                             <p className="text-[10px] text-slate-400 mt-2 text-right font-medium">{notice.date}</p>
+                             <p className="text-xs text-slate-400 leading-relaxed">{notice.content}</p>
+                             <p className="text-[10px] text-slate-600 mt-2 text-right font-medium">{notice.date}</p>
                          </div>
                       ))}
                    </div>
@@ -870,9 +865,9 @@ export const StudentDashboard: React.FC = () => {
         )}
 
         {/* Main Content Card */}
-        <div className="bg-white rounded-[2rem] shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+        <div className="bg-slate-900/50 rounded-[2rem] shadow-xl shadow-black/20 border border-white/10 overflow-hidden backdrop-blur-sm">
              {/* Navigation */}
-            <div className="border-b border-slate-100 flex overflow-x-auto no-scrollbar">
+            <div className="border-b border-white/10 flex overflow-x-auto no-scrollbar">
                 <NavItem id="profile" label="প্রোফাইল" icon={User} />
                 <NavItem id="routine" label="রুটিন" icon={LayoutList} />
                 <NavItem id="attendance" label="উপস্থিতি" icon={Calendar} />
@@ -881,7 +876,7 @@ export const StudentDashboard: React.FC = () => {
             </div>
 
             {/* Content Area */}
-            <div className="p-4 md:p-8 min-h-[600px] bg-slate-50/30">
+            <div className="p-4 md:p-8 min-h-[600px] bg-slate-950/30">
                 {activeTab === 'profile' && <ProfileTab student={student} />}
                 {activeTab === 'routine' && <RoutineTab />}
                 {activeTab === 'attendance' && <AttendanceTab student={student} />}

@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Student, Teacher, FinancialRecord, UserRole, ExamResult, Notice, ActivityLog, AuditLog, ClassRoutineItem, Exam, Batch, SystemSettings, GradeRule } from '../../types';
 
@@ -28,6 +29,122 @@ const SEED_BATCHES: Batch[] = [
 ];
 
 const SEED_STUDENTS: Student[] = [
+  {
+    id: 'STD-101',
+    password: '123',
+    isFirstLogin: false,
+    name: 'Tanvir Ahmed',
+    image: 'https://i.pravatar.cc/300',
+    personal: {
+      dob: '2008-05-20',
+      age: 16,
+      gender: 'Male',
+      maritalStatus: 'Single',
+      religion: 'Islam',
+      mobile: '01711556677',
+      email: 'tanvir@example.com',
+      address: 'Godagari, Rajshahi',
+      bloodGroup: 'A+'
+    },
+    guardian: {
+      fatherName: 'Rafiq Ahmed',
+      motherName: 'Mrs. Ahmed',
+      fatherMobile: '01711000000',
+      motherMobile: '01711000001',
+    },
+    academic: {
+      roll: '101',
+      class: 'Class 10',
+      section: 'Science',
+      joinDate: '2024-01-01',
+      session: '2025',
+      accountStatus: 'Active',
+      classStatus: 'Active',
+      batch: 'Class 10 - Padma (Morning)',
+      batchId: 'b-001'
+    },
+    performance: {
+      lastExam: { score: 580, position: 1 },
+      monthly: { score: 96, position: 1 },
+      yearly: { score: 98, position: 1 }
+    },
+    attendance: [
+       // Simulating recent dates
+       { date: new Date(Date.now() - 6 * 86400000).toISOString().split('T')[0], status: 'Present' },
+       { date: new Date(Date.now() - 5 * 86400000).toISOString().split('T')[0], status: 'Present' },
+       { date: new Date(Date.now() - 4 * 86400000).toISOString().split('T')[0], status: 'Present' },
+       { date: new Date(Date.now() - 3 * 86400000).toISOString().split('T')[0], status: 'Present' },
+       { date: new Date(Date.now() - 2 * 86400000).toISOString().split('T')[0], status: 'Present' },
+       { date: new Date(Date.now() - 1 * 86400000).toISOString().split('T')[0], status: 'Absent' }, // SMS Trigger Demo
+       { date: new Date().toISOString().split('T')[0], status: 'Leave' }   // Today
+    ],
+    financials: [
+      { id: 501, month: 'October 2024', amount: 1500, status: 'Paid', method: 'bKash', paymentDate: '2024-10-05', trxId: 'TRX-OLD-1' },
+      { id: 502, month: 'November 2024', amount: 1500, status: 'Due' } // The Blocking one
+    ],
+    results: [
+      {
+        examId: 'ex-ct-1',
+        examName: 'Class Test 1 (Physics)',
+        date: '2024-02-10',
+        totalMarks: 50,
+        obtainedMarks: 45,
+        position: 2,
+        isPublished: true,
+        status: 'Passed'
+      },
+      {
+        examId: 'ex-ct-2',
+        examName: 'Class Test 2 (Math)',
+        date: '2024-03-15',
+        totalMarks: 50,
+        obtainedMarks: 48,
+        position: 1,
+        isPublished: true,
+        status: 'Passed'
+      },
+      {
+        examId: 'ex-monthly-april',
+        examName: 'Monthly Exam (April)',
+        date: '2024-04-20',
+        totalMarks: 100,
+        obtainedMarks: 85,
+        position: 3,
+        isPublished: true,
+        status: 'Passed'
+      },
+      {
+        examId: 'ex-pre-half',
+        examName: 'Pre-Half Yearly',
+        date: '2024-05-25',
+        totalMarks: 100,
+        obtainedMarks: 92,
+        position: 1,
+        isPublished: true,
+        status: 'Passed'
+      },
+      {
+        examId: 'ex-half-yearly',
+        examName: 'Half Yearly Exam 2024',
+        date: '2024-06-20',
+        totalMarks: 600,
+        obtainedMarks: 580,
+        position: 1,
+        isPublished: true,
+        status: 'Passed'
+      },
+      {
+        examId: 'ex-final-2024',
+        examName: 'Final Exam 2024',
+        date: '2024-12-10',
+        totalMarks: 600,
+        obtainedMarks: 0,
+        position: 0,
+        isPublished: false, // Pending
+        status: 'Passed'
+      }
+    ]
+  },
   {
     id: 'STD-001',
     password: '123',
@@ -145,6 +262,7 @@ const SEED_NOTICES: Notice[] = [
 const SEED_EXAMS: Exam[] = [
     { id: 'ex-001', title: 'Physics Final', subject: 'Physics', durationMinutes: 60, totalMarks: 100, questions: [], class: 'Class 10' },
     { id: 'ex-002', title: 'Math Midterm', subject: 'Math', durationMinutes: 60, totalMarks: 100, questions: [], class: 'Class 10' },
+    { id: 'ex-final-2024', title: 'Final Exam 2024', subject: 'Combined', durationMinutes: 180, totalMarks: 600, questions: [], class: 'Class 10' },
 ];
 
 const SEED_ROUTINE: ClassRoutineItem[] = [
@@ -183,7 +301,9 @@ interface DashboardContextType {
   
   addBatch: (b: Omit<Batch, 'id'>) => void;
   updateBatch: (b: Batch) => void;
+  deleteBatch: (id: string) => void; // Added
   
+  addTeacher: (t: Omit<Teacher, 'id'>) => void; // Added
   toggleTeacherStatus: (id: string) => void;
   
   postNotice: (n: Omit<Notice, 'id' | 'date'>) => void;
@@ -320,10 +440,20 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       logActivity('System', `Deleted student ID: ${id}`);
   };
 
+  const logActivity = (type: any, description: string) => {
+      setRecentActivity(prev => [{
+          id: `log-${Date.now()}`,
+          timestamp: new Date().toISOString(),
+          type,
+          description
+      }, ...prev]);
+  };
+
   const toggleStudentStatus = (id: string) => {
       setStudents(prev => prev.map(s => {
           if (s.id === id) {
               const newStatus = s.academic.accountStatus === 'Active' ? 'Inactive' : 'Active';
+              logActivity('System', `Status changed for ${s.name} to ${newStatus}`);
               return { ...s, academic: { ...s.academic, accountStatus: newStatus } };
           }
           return s;
@@ -336,6 +466,16 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const updateBatch = (b: Batch) => {
       setBatches(prev => prev.map(batch => batch.id === b.id ? b : batch));
+  };
+  
+  const deleteBatch = (id: string) => {
+      setBatches(prev => prev.filter(b => b.id !== id));
+      logActivity('System', `Deleted Batch ID: ${id}`);
+  };
+
+  const addTeacher = (t: Omit<Teacher, 'id'>) => {
+      setTeachers(prev => [...prev, { ...t, id: `t-${Date.now()}`, status: 'Active' }]);
+      logActivity('System', `New teacher added: ${t.name}`);
   };
 
   const toggleTeacherStatus = (id: string) => {
@@ -424,26 +564,18 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
                   }
                   return f;
               });
+              logActivity('Payment', `Payment collected for ${s.name} (Amount: ${s.financials.find(f => f.id === feeId)?.amount})`);
               return { ...s, financials: newFinancials as FinancialRecord[] };
           }
           return s;
       }));
   };
 
-  const logActivity = (type: any, description: string) => {
-      setRecentActivity(prev => [{
-          id: `log-${Date.now()}`,
-          timestamp: new Date().toISOString(),
-          type,
-          description
-      }, ...prev]);
-  };
-
   return (
     <DashboardContext.Provider value={{
       currentUser, role, students, teachers, batches, notices, auditLogs, recentActivity, classRoutine, availableExams, systemSettings, gradingRules,
       login, logout, resetPassword, changePassword, updateSystemSettings, updateGradingRules, admitStudent, updateStudent, deleteStudent, toggleStudentStatus,
-      addBatch, updateBatch, toggleTeacherStatus, postNotice, updateExamMarks, publishResult, getExamStats, markAttendance, makePayment
+      addBatch, updateBatch, deleteBatch, addTeacher, toggleTeacherStatus, postNotice, updateExamMarks, publishResult, getExamStats, markAttendance, makePayment
     }}>
       {children}
     </DashboardContext.Provider>

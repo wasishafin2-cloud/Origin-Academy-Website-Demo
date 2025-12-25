@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 
@@ -23,25 +24,25 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       ></div>
 
       {/* Content */}
-      <div className="relative w-full max-w-lg transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between border-b px-6 py-4 bg-slate-50">
-          <h3 className="text-xl font-bold text-slate-800">{title}</h3>
+      <div className="relative w-full max-w-lg transform overflow-hidden rounded-3xl bg-slate-900 border border-white/10 shadow-2xl transition-all animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between border-b border-white/5 px-6 py-4 bg-white/5 backdrop-blur-md">
+          <h3 className="text-lg font-bold text-white">{title}</h3>
           <button 
             onClick={onClose}
-            className="rounded-full p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 transition-colors"
+            className="rounded-full p-2 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
           >
-            <X size={24} />
+            <X size={20} />
           </button>
         </div>
-        <div className="p-6">
+        <div className="p-6 max-h-[80vh] overflow-y-auto custom-scrollbar text-slate-300">
           {children}
         </div>
       </div>
