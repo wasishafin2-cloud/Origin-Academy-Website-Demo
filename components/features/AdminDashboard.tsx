@@ -200,7 +200,6 @@ const StudentManagement: React.FC = () => {
       <Modal isOpen={!!editingStudent} onClose={() => setEditingStudent(null)} title="Edit Student Profile">
         {editingStudent && (
           <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-             {/* Same Modal Content as before */}
              <div className="space-y-4">
                  <h4 className="font-bold text-slate-300 border-b border-white/10 pb-2 text-sm uppercase tracking-wide">Academic & Batch</h4>
                  <div className="grid grid-cols-1 gap-4">
